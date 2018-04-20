@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: spark-rest
+  namespace: spark-cluster1
+spec:
+  ports:
+    - port: 8082
+      targetPort: 8082
+      nodePort: 31201
+  selector:
+    component: spark-rest
+  type: NodePort 

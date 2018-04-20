@@ -1,0 +1,24 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: spark-rest-controller
+spec:
+  replicas: 1
+  selector:
+    component: spark-rest
+  template:
+    metadata:
+      labels:
+        component: spark-rest
+    spec:
+      containers:
+        - name: spark-rest
+          image: docker.io/anantpukale/spark_app_2.2.1
+          command: ["/opt/spark/bin/spark-submit","--master","spark://spark-master:7077","--name","cfe2","--class","com.oracle.Application","CashFlow-2.2.1-SNAPSHOT-shaded.jar","-Dspring.config.location=application.properties"]
+          imagePullPolicy: IfNotPresent
+          ports:
+             - containerPort: 8082
+             - containerPort: 8087
+          resources:
+            requests:
+              cpu: 100m
